@@ -16,7 +16,7 @@ public class ConversationDialogueManager : MonoBehaviour
     [SerializeField] private TMP_Text dialogueText;
 
 
-    public Queue<string> sentences;
+    public Queue<string> convSentences;
 
     [SerializeField] private GameObject FadeToBlack;
 
@@ -43,14 +43,14 @@ public class ConversationDialogueManager : MonoBehaviour
 
     [SerializeField] private bool lastText = false;
 
-    [SerializeField] private int nextDialogueIndex = 0;
+    [SerializeField] private int dialogueIndex = 0;
 
     //[SerializeField] private int NextSceneIndex;
 
     // Start is called before the first frame update
     void Start()
     {
-        //dialogueText.text = "...";
+        dialogueText.text = "...";
         Actor1.enabled = true;
         Actor2.enabled = true;
         fadingIn = true;
@@ -58,9 +58,9 @@ public class ConversationDialogueManager : MonoBehaviour
         Actor1.color = new Color(1, 1, 1, 0.5f);
         Actor2.color = new Color(1, 1, 1, 0.5f);
 
-        sentences = new Queue<string>();
-        Debug.Log(sentences.Count);
-        Debug.Log("working kinda");
+        convSentences = new Queue<string>();
+        StartDialogue(dialogue);
+        Debug.Log("num sentences:" + convSentences.Count);
         //DisplayNextSentence();
     }
 
@@ -93,73 +93,34 @@ public class ConversationDialogueManager : MonoBehaviour
 
     public void ContinueButton()
     {
-        Debug.Log("continueButton Pressed");
-
-        nextDialogueIndex++;
-
-        if (nextDialogueIndex == sentences.Count)
-        {
-            continueButton.SetActive(false);
-            nextSceneButton.SetActive(true);
-            Debug.Log("End of dialogue at index: " + nextDialogueIndex);
-        }
+        dialogueIndex++;
 
         DisplayNextSentence();
 
-        Debug.Log("index is: " + nextDialogueIndex);
+        Debug.Log("index is: " + dialogueIndex);
 
         //Checks which dialogue sequence this scene is, and uses the appropriate button function
 
         //Template for editing sprites
         if (dialogueAssigner == "nameOfDialogueSequence")
         {
-            if (nextDialogueIndex == 2)
+            if (dialogueIndex == 1)
             {
                 Actor1.sprite = actor1Base;
                 Actor2.enabled = true;
                 BothTalking();
             }
 
-            if (nextDialogueIndex == 3)
+            if (dialogueIndex == 2)
             {
+                Actor1.sprite = actor1Alt;
                 Actor1Talking();
             }
 
-            if (nextDialogueIndex == 4)
-            {
-                Actor2Talking();
-            }
-        }
-        //Intro Scene
-        if (dialogueAssigner == "intro")
-        {
-            if (nextDialogueIndex == 2)
+            if (dialogueIndex == 3)
             {
                 Actor1.sprite = actor1Base;
-                Actor2.enabled = true;
-            }
-
-            if (nextDialogueIndex == 3)
-            {
-            }
-
-            if (nextDialogueIndex == 5)
-            {
-            }
-
-            if (nextDialogueIndex == 6)
-            {
-            }
-
-            if (nextDialogueIndex == 7)
-            {
-
-            }
-
-            if (nextDialogueIndex == 8)
-            {
-                Actor2.enabled = false;
-                Actor1.sprite = actor1Alt;
+                Actor2Talking();
             }
         }
     }
@@ -184,29 +145,35 @@ public class ConversationDialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
-        sentences.Clear();
+        convSentences.Clear();
 
         foreach (string sentence in dialogue.sentences)
         {
-            sentences.Enqueue(sentence);
+            convSentences.Enqueue(sentence);
         }
-
-        DisplayNextSentence();
     }
 
     public void DisplayNextSentence()
     {
-        if (sentences.Count == 0)
+        // If there is one sentence left in the queue
+        if (convSentences.Count == 1)
+        {
+            continueButton.SetActive(false);
+            nextSceneButton.SetActive(true);
+            Debug.Log("End of dialogue at index: " + dialogueIndex);
+        }
+
+        //If there are no sentences left in the queue
+        if (convSentences.Count == 0)
         {
             EndDialogue();
             return;
         }
 
-        string sentence = sentences.Dequeue();
+        string sentence = convSentences.Dequeue();
         StopAllCoroutines();
         StartCoroutine(TypeSentence(sentence));
         //dialogueText.text = sentence;
-
     }
 
     IEnumerator TypeSentence(string sentence)
