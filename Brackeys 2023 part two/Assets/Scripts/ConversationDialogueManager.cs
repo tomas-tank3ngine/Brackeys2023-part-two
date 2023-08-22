@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class ConversationDialogueManager : MonoBehaviour
 {
+    [SerializeField] private bool useButtons;
+
     [SerializeField] private int NextSceneIndex;
     [SerializeField] private string dialogueAssigner;
     public Dialogue dialogue;
@@ -41,6 +43,8 @@ public class ConversationDialogueManager : MonoBehaviour
     [SerializeField] private GameObject continueButton;
     [SerializeField] private GameObject nextSceneButton;
 
+    [SerializeField] private GameObject fakeButton;
+
     [SerializeField] private bool lastText = false;
 
     [SerializeField] private int dialogueIndex = 0;
@@ -61,7 +65,17 @@ public class ConversationDialogueManager : MonoBehaviour
         convSentences = new Queue<string>();
         StartDialogue(dialogue);
         Debug.Log("num sentences:" + convSentences.Count);
-        //DisplayNextSentence();
+        
+        if (useButtons)
+        {
+            continueButton.SetActive(true);
+            fakeButton.SetActive(false);
+        }
+        else
+        {
+            continueButton.SetActive(false);
+            fakeButton.SetActive(true);
+        }
     }
 
     // Update is called once per frame
@@ -88,6 +102,11 @@ public class ConversationDialogueManager : MonoBehaviour
             {
                 fadingIn = false;
             }
+        }
+
+        if (!useButtons && Input.GetKeyDown("e"))
+        {
+            ContinueButton();
         }
     }
 
@@ -156,7 +175,7 @@ public class ConversationDialogueManager : MonoBehaviour
     public void DisplayNextSentence()
     {
         // If there is one sentence left in the queue
-        if (convSentences.Count == 1)
+        if (convSentences.Count == 1 && useButtons)
         {
             continueButton.SetActive(false);
             nextSceneButton.SetActive(true);
