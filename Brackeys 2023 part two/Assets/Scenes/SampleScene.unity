@@ -492,6 +492,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Narrative Dialogue Package
       objectReference: {fileID: 0}
+    - target: {fileID: 9162245369715874656, guid: dd246764671a15c428c02f3cbfc8516b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9162245369715874668, guid: dd246764671a15c428c02f3cbfc8516b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
