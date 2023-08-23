@@ -10,13 +10,14 @@ public class PoseScript : MonoBehaviour
     public float speed;
     private GameObject PoseSpawner;
 
-    [SerializeField] private GameObject LateHolder;
-    [SerializeField] private GameObject PerfectHolder;
+    [SerializeField] private GameObject GameManager;
+    [SerializeField] private GameManager GMSript;
 
     // Start is called before the first frame update
     void Start()
     {
         PoseSpawner = GameObject.FindGameObjectWithTag("Spawner");
+        GameManager = GameObject.FindGameObjectWithTag("GM");
         DeactivatePose();
         //GetComponent<SpriteRenderer>().sprite = poseIdentity.sprite;
     }
@@ -28,7 +29,7 @@ public class PoseScript : MonoBehaviour
         {
             transform.position = new Vector3(transform.position.x, transform.position.y + speed * Time.deltaTime);
         }
-
+        
         if (transform.position.y > 5)
         {
             DeactivatePose();
@@ -46,4 +47,18 @@ public class PoseScript : MonoBehaviour
         GetComponent<SpriteRenderer>().enabled = false;
         isActive = false;
     }
+
+    public void MissedPose()
+    {
+        GetComponent<SpriteRenderer>().enabled = false;
+
+
+    }
+
+    public void GotPose()
+    {
+        GetComponent<SpriteRenderer>().enabled = false;
+    }
+
+
 }

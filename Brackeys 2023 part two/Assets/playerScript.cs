@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class playerScript : MonoBehaviour
 {
+    [SerializeField] public Sprite[] poseSprites;
+    [SerializeField] private SpriteRenderer divermanSR;
+    [SerializeField] private Sprite currentSprite;
+
     public GameObject perfectPose;
     public GameObject imperfectPose;
     
@@ -15,6 +19,8 @@ public class playerScript : MonoBehaviour
 
     private bool NoteDetected;
     private GameObject currentNote;
+    private GameObject gameManager;
+    private GameManager GMScript;
 
 
     private bool softInputDisabled;
@@ -28,6 +34,11 @@ public class playerScript : MonoBehaviour
     void Start()
     {
         InputZone = GetComponent<CircleCollider2D>();
+        gameManager = GameObject.FindGameObjectWithTag("GM");
+        GMScript = gameManager.GetComponent<GameManager>();
+
+        divermanSR = GetComponent<SpriteRenderer>();
+        currentSprite = divermanSR.sprite;
         //imperfectPoseHitbox = imperfectPose.GetComponent<BoxCollider2D>();
     }
 
@@ -68,9 +79,19 @@ public class playerScript : MonoBehaviour
                 {
                     if (NoteDetected)
                     {
+                        //Got the note
                         softInputDisabled = true;
                         softDisableTimer = 0.05f;
                         Debug.Log("Perfect Input!");
+                        currentNote.GetComponent<PoseScript>().GotPose();
+                        //currentNote = null;
+
+                        GMScript.perfectInput(desiredInput);
+
+
+                        //todo animation
+
+                        switchSprite(desiredInput);
                     }
                 }
             }
@@ -83,6 +104,10 @@ public class playerScript : MonoBehaviour
                 inputDisabled = true;
                 InputZone.enabled = false;
                 disableTimer = 0.5f;
+
+                GMScript.missedInput();
+                switchSprite("missed");
+                Invoke(nameof(resetSprite), 0.25f);
                 Debug.Log("Missedinput");
             }
         }
@@ -96,6 +121,8 @@ public class playerScript : MonoBehaviour
             currentNote = collision.gameObject;
             desiredInput = collision.GetComponent<PoseScript>().poseIdentity.keyInput;
             NoteDetected = true;
+
+
         }
     }
 
@@ -137,5 +164,37 @@ public class playerScript : MonoBehaviour
         }
         string noInput = "none";
         return noInput;
+    }
+
+    public void switchSprite(string inputDirection)
+    {
+        if (inputDirection == "idle")
+        {
+            divermanSR.sprite = poseSprites[0];
+        }
+        if (inputDirection == "up")
+        {
+            divermanSR.sprite = poseSprites[1];
+        }
+        if (inputDirection == "down")
+        {
+            divermanSR.sprite = poseSprites[2];
+        }
+        if (inputDirection == "left")
+        {
+            divermanSR.sprite = poseSprites[3];
+        }
+        if (inputDirection == "right")
+        {
+            divermanSR.sprite = poseSprites[4];
+        }
+        if (inputDirection == "missed")
+        {
+            divermanSR.sprite = poseSprites[5];
+        }
+    }
+    public void resetSprite()
+    {
+        divermanSR.sprite = poseSprites[0];
     }
 }

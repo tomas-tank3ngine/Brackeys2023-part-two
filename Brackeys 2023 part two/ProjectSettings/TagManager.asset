@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Spawner
   - Note
+  - GM
   layers:
   - Default
   - TransparentFX
@@ -48,4 +49,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 3871957389
+    locked: 0
+  - name: HUD
+    uniqueID: 3705991599
     locked: 0
