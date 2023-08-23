@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5263831811455294675}
   - component: {fileID: 2353480408157191315}
   - component: {fileID: 7797738892451642468}
-  - component: {fileID: 3088047019509647948}
   m_Layer: 0
   m_Name: Pop_PS
   m_TagString: Untagged
@@ -4897,7 +4896,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 856837849
-  m_SortingLayer: 1
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -4929,15 +4928,3 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &3088047019509647948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9082671325336867442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06cd09c2750bf714d9d3a31ec7705197, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
