@@ -7,13 +7,14 @@ public class playerScript : MonoBehaviour
     public GameObject perfectPose;
     public GameObject imperfectPose;
     
-    public EdgeCollider2D InputZone;
+    public CircleCollider2D InputZone;
 
     public string desiredInput;
     public string currentInput;
     private GameObject currentPose;
 
     private bool NoteDetected;
+    private GameObject currentNote;
 
 
     private bool softInputDisabled;
@@ -26,7 +27,7 @@ public class playerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InputZone = GetComponent<EdgeCollider2D>();
+        InputZone = GetComponent<CircleCollider2D>();
         //imperfectPoseHitbox = imperfectPose.GetComponent<BoxCollider2D>();
     }
 
@@ -35,11 +36,11 @@ public class playerScript : MonoBehaviour
     {
         if (softInputDisabled)
         {
-            GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0.6f);
+            GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0.6f);
             softDisableTimer -= Time.deltaTime;
             if (softDisableTimer <= 0.0f)
             {
-                GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 1f);
+                GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 1f);
                 softInputDisabled = false;
                 InputZone.enabled = true;
             }
@@ -47,15 +48,17 @@ public class playerScript : MonoBehaviour
 
         if (inputDisabled)
         {
-            GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0.2f);
+            GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0.2f);
             disableTimer -= Time.deltaTime;
             if (disableTimer <= 0.0f)
             {
-                GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 1f);
+                GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 1f);
                 inputDisabled = false;
                 InputZone.enabled = true;
             }
         }
+
+
         if (!(inputDisabled || softInputDisabled))
         {            
             if (Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0)
@@ -90,6 +93,7 @@ public class playerScript : MonoBehaviour
         if (collision.CompareTag("Note") )
         {
             Debug.Log("hitbox entered");
+            currentNote = collision.gameObject;
             desiredInput = collision.GetComponent<PoseScript>().poseIdentity.keyInput;
             NoteDetected = true;
         }
