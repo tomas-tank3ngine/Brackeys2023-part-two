@@ -13,8 +13,7 @@ public class playerScript : MonoBehaviour
     public string currentInput;
     private GameObject currentPose;
 
-    private bool inPerfect;
-    private bool inLate;
+    private bool NoteDetected;
 
 
     private bool softInputDisabled;
@@ -34,13 +33,13 @@ public class playerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (softInputDisabled)
         {
             GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0.6f);
             softDisableTimer -= Time.deltaTime;
             if (softDisableTimer <= 0.0f)
             {
+                GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 1f);
                 softInputDisabled = false;
                 InputZone.enabled = true;
             }
@@ -52,35 +51,29 @@ public class playerScript : MonoBehaviour
             disableTimer -= Time.deltaTime;
             if (disableTimer <= 0.0f)
             {
+                GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 1f);
                 inputDisabled = false;
                 InputZone.enabled = true;
             }
         }
-        if (inPerfect || inLate && !(inputDisabled || softInputDisabled))
-        {
+        if (!(inputDisabled || softInputDisabled))
+        {            
             if (Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0)
             {
                 //DirectionChecker() returns a string of whatever key the player has pressed.
                 if (DirectionChecker() == desiredInput)
                 {
-                    if (inPerfect)
+                    if (NoteDetected)
                     {
                         softInputDisabled = true;
                         softDisableTimer = 0.05f;
-                        Debug.Log("Perfect input");
-                    }
-
-                    if (inLate)
-                    {
-                        softInputDisabled = true;
-                        softDisableTimer = 0.05f;
-                        Debug.Log("Late input");
+                        Debug.Log("Perfect Input!");
                     }
                 }
             }
         }
 
-        if (!(inPerfect || inLate) && !(inputDisabled || softInputDisabled))
+        if (!NoteDetected && !(inputDisabled || softInputDisabled))
         {
             if (Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0)
             {
@@ -94,28 +87,21 @@ public class playerScript : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("perfectBox") )
+        if (collision.CompareTag("Note") )
         {
+            Debug.Log("hitbox entered");
             desiredInput = collision.GetComponent<PoseScript>().poseIdentity.keyInput;
-            inPerfect = true;
-        }
-        if (collision.CompareTag("lateBox"))
-        {
-            inLate = true;
+            NoteDetected = true;
         }
     }
 
     public void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("perfectBox"))
+        if (collision.CompareTag("Note"))
         {
-            inPerfect = false;
-        }
-
-        if (collision.CompareTag("lateBox"))
-        {
-            inLate = false;
+            Debug.Log("hitbox left");
             desiredInput = "none";
+            NoteDetected = false;
         }
     }
 
