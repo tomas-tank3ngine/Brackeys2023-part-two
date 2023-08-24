@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: 
   keyInput: right
-  sprite: {fileID: 21300000, guid: 7be23abb007f04a4b88521d85d5ae344, type: 3}
+  sprite: {fileID: 21300000, guid: da15a2685e96ab2409d662ac73bbcf8b, type: 3}

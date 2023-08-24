@@ -5,6 +5,7 @@ using UnityEngine;
 public class PoseScript : MonoBehaviour
 {
     [SerializeField] public bool isActive;
+    [SerializeField] public bool alreadyHit = false;
     [SerializeField] public Pose poseIdentity;
     [SerializeField] public int spawnOrder;
     public float speed;
@@ -50,14 +51,16 @@ public class PoseScript : MonoBehaviour
 
     public void MissedPose()
     {
+        gameObject.SetActive(false);
         GetComponent<SpriteRenderer>().enabled = false;
-
-
     }
 
     public void GotPose()
     {
-        GetComponent<SpriteRenderer>().enabled = false;
+
+        gameObject.SetActive(false);
+        //GetComponent<SpriteRenderer>().enabled = false;
+        //GetComponent<BoxCollider2D>().enabled = false;
     }
 
 

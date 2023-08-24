@@ -47,7 +47,7 @@ public class playerScript : MonoBehaviour
     {
         if (softInputDisabled)
         {
-            GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0.6f);
+            GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0.9f);
             softDisableTimer -= Time.deltaTime;
             if (softDisableTimer <= 0.0f)
             {
@@ -71,9 +71,18 @@ public class playerScript : MonoBehaviour
 
 
         if (!(inputDisabled || softInputDisabled))
-        {            
+        {
+            currentInput = DirectionChecker();
+
+            switchSprite(currentInput);
+
+
+            /*
             if (Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0)
             {
+                currentInput = DirectionChecker();
+
+
                 //DirectionChecker() returns a string of whatever key the player has pressed.
                 if (DirectionChecker() == desiredInput)
                 {
@@ -95,6 +104,7 @@ public class playerScript : MonoBehaviour
                     }
                 }
             }
+            
         }
 
         if (!NoteDetected && !(inputDisabled || softInputDisabled))
@@ -111,10 +121,58 @@ public class playerScript : MonoBehaviour
                 Debug.Log("Missedinput");
             }
         }
+            */
+        }
     }
-
-    public void OnTriggerEnter2D(Collider2D collision)
+        public void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.CompareTag("Note"))
+        {
+            currentNote = collision.gameObject;
+            desiredInput = collision.GetComponent<PoseScript>().poseIdentity.keyInput;
+            NoteDetected = true;
+            if (currentInput == desiredInput)
+            {
+                softInputDisabled = true;
+                softDisableTimer = 0.05f;
+                Debug.Log("Perfect Input!");
+
+                collision.GetComponent<PoseScript>().GotPose();
+                collision.GetComponent<PoseScript>().alreadyHit = true;
+                //currentNote = null;
+
+                GMScript.perfectInput(desiredInput);
+                return;
+            }
+
+            if (currentInput != desiredInput)
+            {
+                inputDisabled = true;
+                InputZone.enabled = false;
+                disableTimer = 0.5f;
+
+                GMScript.missedInput();
+                switchSprite("missed");
+                Invoke(nameof(resetSprite), 0.4f);
+                Debug.Log("Missedinput");
+
+                collision.GetComponent<PoseScript>().MissedPose();
+                collision.GetComponent<PoseScript>().alreadyHit = true;
+            }
+            /*
+            if (currentInput != desiredInput)
+            {
+                softInputDisabled = true;
+                softDisableTimer = 0.05f;
+                Debug.Log("Perfect Input!");
+                currentNote.GetComponent<PoseScript>().GotPose();
+                //currentNote = null;
+
+                GMScript.perfectInput(desiredInput);
+            }*/
+
+        }
+        /*
         if (collision.CompareTag("Note") )
         {
             Debug.Log("hitbox entered");
@@ -123,17 +181,30 @@ public class playerScript : MonoBehaviour
             NoteDetected = true;
 
 
-        }
+        }*/
     }
 
     public void OnTriggerExit2D(Collider2D collision)
     {
+        /*
         if (collision.CompareTag("Note"))
         {
-            Debug.Log("hitbox left");
-            desiredInput = "none";
+            desiredInput = null;
+            if (collision.GetComponent<PoseScript>().alreadyHit != true)
+            {
+                inputDisabled = true;
+                InputZone.enabled = false;
+                disableTimer = 0.5f;
+
+                GMScript.missedInput();
+                switchSprite("missed");
+                Invoke(nameof(resetSprite), 0.4f);
+                collision.GetComponent<PoseScript>().MissedPose();
+                Debug.Log("Missedinput On Exit");
+            }
+            currentNote = null;
             NoteDetected = false;
-        }
+        }*/
     }
 
     public string DirectionChecker()
@@ -168,7 +239,7 @@ public class playerScript : MonoBehaviour
 
     public void switchSprite(string inputDirection)
     {
-        if (inputDirection == "idle")
+        if (inputDirection == "none")
         {
             divermanSR.sprite = poseSprites[0];
         }
