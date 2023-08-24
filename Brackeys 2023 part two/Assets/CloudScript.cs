@@ -16,6 +16,6 @@ public class CloudScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.position
+        //transform.position.x = transform.position.x + ;
     }
 }
