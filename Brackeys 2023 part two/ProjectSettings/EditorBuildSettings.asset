@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/CannonBall.unity
     guid: 8e5aa82ed81923a47a4ca9c8e9150f3d
   - enabled: 1
-    path: Assets/Scenes/TestRoom.unity
+    path: Assets/Scenes/Easy.unity
     guid: e2520984b6e08d4458f503337385bfb7
   m_configObjects: {}

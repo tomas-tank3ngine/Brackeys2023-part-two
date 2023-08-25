@@ -37,7 +37,7 @@ public class poseSpawnerScript : MonoBehaviour
     void Update()
     {
         //Timer that determines the spawn rate of the poses.
-        while (levelActive)
+        if (levelActive)
         {
             spawnDelayTimer -= Time.deltaTime;
             if (spawnDelayTimer <= 0.0f && (queueCount < poseQueue.Count))
@@ -85,16 +85,19 @@ public class poseSpawnerScript : MonoBehaviour
 
     public void PlayGame()
     {
+        TutorialScreen.SetActive(false);
+        tutorialSeen = true;
         playCountdown();
         Invoke(nameof(activateLevel), 3.5f);
     }
     public void playCountdown()
     {
-
+        GetComponent<Animator>().SetTrigger("StartCountdown");
     }
 
     public void activateLevel()
     {
         levelActive = true;
+        GetComponent<SpriteRenderer>().enabled = false;
     }
 }
