@@ -29,6 +29,9 @@ public class playerScript : MonoBehaviour
     private bool inputDisabled;
     private float disableTimer;
 
+    [SerializeField] private ParticleSystem PerfectPS;
+    [SerializeField] private ParticleSystem GreenPS;
+
 
     // Start is called before the first frame update
     void Start()
@@ -59,7 +62,7 @@ public class playerScript : MonoBehaviour
 
         if (inputDisabled)
         {
-            GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0.2f);
+            GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0.9f);
             disableTimer -= Time.deltaTime;
             if (disableTimer <= 0.0f)
             {
@@ -126,11 +129,16 @@ public class playerScript : MonoBehaviour
     }
         public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Note"))
+        //If the collision is a note and has not already been hit...
+        if (collision.CompareTag("Note") && !collision.GetComponent<PoseScript>().alreadyHit)
         {
+            //Set, or remember, the current note and the input that note requires.
+            //Check that a note is in fact detected.
             currentNote = collision.gameObject;
             desiredInput = collision.GetComponent<PoseScript>().poseIdentity.keyInput;
             NoteDetected = true;
+
+            //Check for matching inputs,
             if (currentInput == desiredInput)
             {
                 softInputDisabled = true;
@@ -139,6 +147,8 @@ public class playerScript : MonoBehaviour
 
                 collision.GetComponent<PoseScript>().GotPose();
                 collision.GetComponent<PoseScript>().alreadyHit = true;
+
+                PerfectPS.Play();
                 //currentNote = null;
 
                 GMScript.perfectInput(desiredInput);

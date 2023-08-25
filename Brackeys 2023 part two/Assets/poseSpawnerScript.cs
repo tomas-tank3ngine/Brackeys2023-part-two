@@ -17,28 +17,40 @@ public class poseSpawnerScript : MonoBehaviour
     [SerializeField] public float spawnDelay = 3f;
     [SerializeField] public float spawnDelayTimer;
 
+    [SerializeField] private bool levelActive = false;
+    [SerializeField] private GameObject TutorialScreen;
+    [SerializeField] private GameObject SpawnPosition;
+    public static bool tutorialSeen = false;
+
     // Start is called before the first frame update
     void Start()
     {
         PosePooling();
         spawnDelayTimer = spawnDelay;
+        if (tutorialSeen)
+        {
+            TutorialScreen.SetActive(false);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         //Timer that determines the spawn rate of the poses.
-        spawnDelayTimer -= Time.deltaTime;
-        if (spawnDelayTimer <= 0.0f && (queueCount < poseQueue.Count))
+        while (levelActive)
         {
-            timerEnded();
-            spawnDelayTimer = spawnDelay;
+            spawnDelayTimer -= Time.deltaTime;
+            if (spawnDelayTimer <= 0.0f && (queueCount < poseQueue.Count))
+            {
+                timerEnded();
+                spawnDelayTimer = spawnDelay;
+            }
         }
     }
 
     void timerEnded()
     {
-        //choose the next pose in order, and set it to active usign a function on it.
+        //choose the next pose in order, and set it to active using a function on it.
         //Once set active, the script on that pose will automatically have it moving upwards on Start().
         poseQueue[queueCount].GetComponent<PoseScript>().ActivatePose();
         queueCount++;
@@ -50,7 +62,7 @@ public class poseSpawnerScript : MonoBehaviour
         int spawnOrder = 0;
         foreach (var item in poseRequestList)
         {
-            GameObject tempPose = Instantiate(posePrefab, transform.position, Quaternion.identity, transform);
+            GameObject tempPose = Instantiate(posePrefab, SpawnPosition.transform.position, Quaternion.identity, transform);
             var tempPoseScript = tempPose.GetComponent<PoseScript>();
 
             //set the speed of each instantiated object to be the set speed of this level.
@@ -69,5 +81,20 @@ public class poseSpawnerScript : MonoBehaviour
 
             //The item sets sets the "isActive" boolean to false on start().
         }
+    }
+
+    public void PlayGame()
+    {
+        playCountdown();
+        Invoke(nameof(activateLevel), 3.5f);
+    }
+    public void playCountdown()
+    {
+
+    }
+
+    public void activateLevel()
+    {
+        levelActive = true;
     }
 }
