@@ -28,12 +28,19 @@ public class ButtonManager : MonoBehaviour
     }
     public void StartButton()
     {
-        JimAnimator.SetTrigger("Jump"); 
+        Invoke(nameof(JumpAnimationStarter), 1f);
+        Invoke(nameof(NextScene), 2.4f);
 
-        Invoke(nameof(NextScene), 1.4f);
+        CrowdTalking.SetActive(false);
+        SHHH.SetActive(true);
 
         Button.SetActive(false);
         TextObj.SetActive(false);
+    }
+
+    public void JumpAnimationStarter()
+    {
+        JimAnimator.SetTrigger("Jump");
     }
 
     public void EasyButton()
