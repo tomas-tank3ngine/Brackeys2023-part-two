@@ -13,6 +13,9 @@ public class ButtonManager : MonoBehaviour
     public GameObject MButton;
     public GameObject HButton;
 
+    public GameObject CrowdTalking;
+    public GameObject SHHH;
+
     public bool jumpAnimation;
     public bool cannonBallEnterAnimation;
 
