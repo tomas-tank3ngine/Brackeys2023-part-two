@@ -5200,6 +5200,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac11ac1a5b5559e4abf5a2fdfec69186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usingPool: 0
+  PoseBank:
+  - {fileID: 11400000, guid: 7e27c80a27abd344b8088571b03efa66, type: 2}
+  - {fileID: 11400000, guid: 41fd4c87bd5ded94ca29cdc03f01f2c0, type: 2}
+  - {fileID: 11400000, guid: df4d7a8eb4569e947afbec5197920611, type: 2}
+  - {fileID: 11400000, guid: 4ef28e57c82da3a459a4471f2bf3a4d1, type: 2}
+  - {fileID: 11400000, guid: 07cfebfe4cd783f4f90502387fe25df1, type: 2}
   poseRequestList:
   - {fileID: 11400000, guid: 07cfebfe4cd783f4f90502387fe25df1, type: 2}
   - {fileID: 11400000, guid: 7e27c80a27abd344b8088571b03efa66, type: 2}
@@ -5221,6 +5228,7 @@ MonoBehaviour:
   levelActive: 0
   TutorialScreen: {fileID: 244066981}
   SpawnPosition: {fileID: 347060297}
+  spawnOrder: 0
 --- !u!4 &452267347
 Transform:
   m_ObjectHideFlags: 0
@@ -6780,11 +6788,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f195fd4c7903fcd438f4f1ea9fb5935e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawner: {fileID: 452267345}
+  spawnerScript: {fileID: 0}
+  HighscoreAnim: {fileID: 0}
+  ScoreAnim: {fileID: 0}
   GoalDepth: 0
   halfwayThere: 0
-  wooshPS: {fileID: 8346747760005306371}
   currentScene: 
   depthText: {fileID: 804989006}
+  highscoreText: {fileID: 0}
 --- !u!4 &1659185796
 Transform:
   m_ObjectHideFlags: 0
@@ -7175,6 +7187,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2193059249292560927, guid: 72f40f02f0c92154980e796d6960e967, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4668635498354287870, guid: 72f40f02f0c92154980e796d6960e967, type: 3}
       propertyPath: m_Name
       value: WhooshFar_PS
@@ -7282,8 +7298,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8740edf5c497d4419b6d1828552c0d0, type: 3}
---- !u!198 &8346747760005306371 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 2193059249292560927, guid: 72f40f02f0c92154980e796d6960e967, type: 3}
-  m_PrefabInstance: {fileID: 7906866403273118236}
-  m_PrefabAsset: {fileID: 0}

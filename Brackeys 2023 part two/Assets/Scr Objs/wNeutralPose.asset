@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: wNeutralPose
   m_EditorClassIdentifier: 
   name: 
-  keyInput: 
-  sprite: {fileID: 21300000, guid: 23e911ae5289b634284e860f99727a7d, type: 3}
+  keyInput: none
+  sprite: {fileID: 21300000, guid: 0c646bb4dee06be41bf057ff1eba2805, type: 3}

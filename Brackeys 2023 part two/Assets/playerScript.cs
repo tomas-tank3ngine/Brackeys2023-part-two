@@ -72,7 +72,7 @@ public class playerScript : MonoBehaviour
 
         if (inputDisabled)
         {
-            Debug.Log("Input Disabled");
+            //Debug.Log("Input Disabled");
             GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0.9f);
             disableTimer -= Time.deltaTime;
             if (disableTimer <= 0.0f)
@@ -154,7 +154,7 @@ public class playerScript : MonoBehaviour
             {
                 softInputDisabled = true;
                 softDisableTimer = 0.05f;
-                Debug.Log("Perfect Input!");
+                //Debug.Log("Perfect Input!");
 
                 collision.GetComponent<PoseScript>().GotPose();
                 collision.GetComponent<PoseScript>().alreadyHit = true;
@@ -183,7 +183,7 @@ public class playerScript : MonoBehaviour
                 GMScript.missedInput();
                 switchSprite("missed");
                 //Invoke(nameof(resetSprite), 0.4f);
-                Debug.Log("Missedinput");
+                //Debug.Log("Missedinput");
 
                 collision.GetComponent<PoseScript>().MissedPose();
                 collision.GetComponent<PoseScript>().alreadyHit = true;
@@ -241,7 +241,7 @@ public class playerScript : MonoBehaviour
         if (Input.GetAxisRaw("Horizontal") == 1)
         {
             //right
-            Debug.Log("rightInput");
+            //Debug.Log("rightInput");
             string registeredInput = "right";
             return registeredInput;
         }

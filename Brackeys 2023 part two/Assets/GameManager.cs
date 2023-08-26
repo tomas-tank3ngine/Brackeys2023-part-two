@@ -6,21 +6,53 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject spawner;
+    public poseSpawnerScript spawnerScript;
+    public Animator HighscoreAnim;
+    public Animator ScoreAnim;
     public static int depthCounter;
     public static int Highscore;
 
     public int GoalDepth;
     public bool halfwayThere;
-    [SerializeField] private ParticleSystem wooshPS;
     public string currentScene;
 
     public TMP_Text depthText;
+    public TMP_Text highscoreText;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (spawner != null)
+        {
+            spawnerScript = spawner.GetComponent<poseSpawnerScript>();
+        }
         
+        if (SceneManager.GetActiveScene().name == "Main Menu")
+        {
+            Highscore = PlayerPrefs.GetInt("ppHighScore", Highscore);
+        }
+
+        if (SceneManager.GetActiveScene().name == "Gameplay")
+        {
+            depthCounter = 0;
+        }
+
         currentScene = SceneManager.GetActiveScene().name;
+        if (depthText != null)
+        {
+            depthText.text = depthCounter.ToString() + "ft";
+        }
+        if (highscoreText != null)
+        {
+            highscoreText.text = Highscore.ToString() + "ft";
+        }
+            
+        /*
+        if ((HighscoreAnim != null && ScoreAnim != null))
+        {
+            HighscoreAnim.SetTrigger;
+        }*/
     }
 
     // Update is called once per frame
@@ -31,18 +63,16 @@ public class GameManager : MonoBehaviour
 
     public void perfectInput(string inputDirection)
     {
-        wooshPS.startSpeed += 1;
-        
         depthCounter += 1;
         depthText.text = depthCounter + "ft";
     }
 
     public void missedInput()
     {
-        wooshPS.startSpeed -= 1.5f;
         //depthCounter -= 1;
+        spawnerScript.DeleteAllPoses();
 
-        Invoke(nameof(endScene), 1.2f);
+        Invoke(nameof(loadEndScene), 1.2f);
         if (depthCounter > Highscore)
         {
             Highscore = depthCounter;
@@ -50,7 +80,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void endScene()
+    public void loadEndScene()
     {
         SceneManager.LoadScene("endScene");
     }

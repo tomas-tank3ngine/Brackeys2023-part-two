@@ -38,6 +38,11 @@ public class ButtonManager : MonoBehaviour
         TextObj.SetActive(false);
     }
 
+    public void RedoButton()
+    {
+        SceneManager.LoadScene("Main Menu");
+    }
+
     public void JumpAnimationStarter()
     {
         JimAnimator.SetTrigger("Jump");
@@ -80,6 +85,10 @@ public class ButtonManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    public void GameScene()
+    {
+        SceneManager.LoadScene("Gameplay"); 
+    }
     public void EasyScene()
     {
         SceneManager.LoadScene("Easy");

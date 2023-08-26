@@ -19,7 +19,7 @@ public class PoseScript : MonoBehaviour
     {
         PoseSpawner = GameObject.FindGameObjectWithTag("Spawner");
         GameManager = GameObject.FindGameObjectWithTag("GM");
-        DeactivatePose();
+        
         //GetComponent<SpriteRenderer>().sprite = poseIdentity.sprite;
     }
 
