@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc1acce1529fc3645b3142bd2949820b, type: 3}
-  m_Name: lBlueArrow
+  m_Name: wRightPose
   m_EditorClassIdentifier: 
   name: 
-  keyInput: left
-  sprite: {fileID: 1583425972, guid: 32251115827e013479aaa0a0b0753100, type: 3}
+  keyInput: right
+  sprite: {fileID: 712774639, guid: 32251115827e013479aaa0a0b0753100, type: 3}
