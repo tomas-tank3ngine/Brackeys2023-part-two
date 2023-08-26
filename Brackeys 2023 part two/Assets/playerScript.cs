@@ -28,6 +28,7 @@ public class playerScript : MonoBehaviour
 
     private bool inputDisabled;
     private float disableTimer;
+    public Animator JimAnim;
 
     [SerializeField] private ParticleSystem PerfectPS;
     [SerializeField] private ParticleSystem GreenPS;
@@ -41,8 +42,17 @@ public class playerScript : MonoBehaviour
         GMScript = gameManager.GetComponent<GameManager>();
 
         divermanSR = GetComponent<SpriteRenderer>();
+        JimAnim = GetComponent<Animator>();
         currentSprite = divermanSR.sprite;
+
+        //JimAnim.SetTrigger("enterScreen");
+        Invoke(nameof(DisableAnimator), 0.5f);
         //imperfectPoseHitbox = imperfectPose.GetComponent<BoxCollider2D>();
+    }
+
+    public void DisableAnimator()
+    {
+        JimAnim.enabled = false;
     }
 
     // Update is called once per frame
@@ -62,6 +72,7 @@ public class playerScript : MonoBehaviour
 
         if (inputDisabled)
         {
+            Debug.Log("Input Disabled");
             GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0.9f);
             disableTimer -= Time.deltaTime;
             if (disableTimer <= 0.0f)
@@ -157,13 +168,21 @@ public class playerScript : MonoBehaviour
 
             if (currentInput != desiredInput)
             {
+                /*
                 inputDisabled = true;
                 InputZone.enabled = false;
                 disableTimer = 0.5f;
+                */
+
+                inputDisabled = true;
+                InputZone.enabled = false;
+                disableTimer = 2f;
+                JimAnim.enabled = true;
+                JimAnim.SetTrigger("exitScreen");
 
                 GMScript.missedInput();
                 switchSprite("missed");
-                Invoke(nameof(resetSprite), 0.4f);
+                //Invoke(nameof(resetSprite), 0.4f);
                 Debug.Log("Missedinput");
 
                 collision.GetComponent<PoseScript>().MissedPose();
@@ -222,6 +241,7 @@ public class playerScript : MonoBehaviour
         if (Input.GetAxisRaw("Horizontal") == 1)
         {
             //right
+            Debug.Log("rightInput");
             string registeredInput = "right";
             return registeredInput;
         }
