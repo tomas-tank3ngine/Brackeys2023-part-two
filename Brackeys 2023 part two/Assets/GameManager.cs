@@ -19,10 +19,18 @@ public class GameManager : MonoBehaviour
 
     public TMP_Text depthText;
     public TMP_Text highscoreText;
+    public AudioSource Clap;
+
+    public ParticleSystem DunkingBubbles;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (SceneManager.GetActiveScene().name == "endScene")
+        {
+            Invoke(nameof(playBubbles), 0.05f);
+        }
+
         if (spawner != null)
         {
             spawnerScript = spawner.GetComponent<poseSpawnerScript>();
@@ -65,6 +73,7 @@ public class GameManager : MonoBehaviour
     {
         depthCounter += 1;
         depthText.text = depthCounter + "ft";
+        Clap.Play();
     }
 
     public void missedInput()
@@ -83,5 +92,10 @@ public class GameManager : MonoBehaviour
     public void loadEndScene()
     {
         SceneManager.LoadScene("endScene");
+    }
+
+    public void playBubbles()
+    {
+        DunkingBubbles.Play();
     }
 }

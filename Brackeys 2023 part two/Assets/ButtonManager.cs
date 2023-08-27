@@ -29,7 +29,7 @@ public class ButtonManager : MonoBehaviour
     public void StartButton()
     {
         Invoke(nameof(JumpAnimationStarter), 1f);
-        Invoke(nameof(NextScene), 2.4f);
+        Invoke(nameof(NextScene), 3f);
 
         CrowdTalking.SetActive(false);
         SHHH.SetActive(true);

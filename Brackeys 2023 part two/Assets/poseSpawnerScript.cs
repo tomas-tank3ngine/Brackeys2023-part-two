@@ -66,7 +66,7 @@ public class poseSpawnerScript : MonoBehaviour
                         setPoseSpeed += 0.5f;
                     }
 
-                    if (!(comboCount > 0) && Random.Range(1, 11) <= 2)
+                    if (!(comboCount > 0) && Random.Range(1, 101) <= 25)
                     {
                         comboCount = Random.Range(2,4);
                         spawnDelay = 0.5f;
